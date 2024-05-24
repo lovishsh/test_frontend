@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <button id="loginButton">Login</button>
+    <button id="protectedButton">Access Protected Route</button>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', () => {
+            axios.post('https://ucjyg1fh3g.execute-api.ap-south-2.amazonaws.com/dev/login', {}, {
+                withCredentials: true, // Ensure cookies are included
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                document.getElementById('response').textContent = JSON.stringify(response.data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('protectedButton').addEventListener('click', () => {
+            axios.get('https://sh6yqo5p5h.execute-api.ap-south-2.amazonaws.com/dev/authorize',{} ,{
+                withCredentials: true, // Ensure cookies are included,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                document.getElementById('response').textContent = JSON.stringify(response.data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
